@@ -1,0 +1,6 @@
+build*
+ignored/*
+src/.qmake.stash
+src/*.pro.user*
+*.pro.user*
+
