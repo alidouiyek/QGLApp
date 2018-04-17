@@ -1,15 +1,9 @@
 #ifndef _GLWIDGET_H
 #define _GLWIDGET_H
-//#include <GL/glew.h>
+
 #include <GL/freeglut.h>
 #include <QtOpenGL/QGLWidget>
 #include <opencv2/opencv.hpp>
-#include <opencv/cxcore.h>
-//#include "Cv3DMesh.h"
-//#include "mesh.h"
-#include <QFile>
-#include <QFileInfo>
-#include <QDebug>
 
 class GLWidget : public QGLWidget {
 
@@ -26,8 +20,8 @@ public:
     int H =720;
     float saturationLevel=1.0;
 
-    GLuint texture=0;     // OpenGL texture object
-    GLuint pixelBufferObject=0;     // OpenGL pixel buffer object
+    GLuint texture=0;
+    GLuint pixelBufferObject=0;
     struct cudaGraphicsResource *cudaPboResource;
 
     void setImageSize(cv::Size size) ;

@@ -1,14 +1,10 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include <QtGui/QMouseEvent>
 #include "glwidget.h"
-#include "/usr/local/cuda-8.0/include/cuda_runtime.h"
-#include </usr/local/cuda-8.0/include/cuda_gl_interop.h>
+#include <cuda_runtime.h>
+#include <cuda_gl_interop.h>
 #include "process.cuh"
-
-
-
 
 GLWidget::GLWidget(QWidget *parent) : QGLWidget(parent)
 {
@@ -35,10 +31,12 @@ void GLWidget::setImageSize(cv::Size size)
 {
         W=size.width;
         H=size.height;
-        printf("SetIm  \t%ix%i  \n", W, H);
+        printf("Input Size: %ix%i  \n", W, H);
 
         if(inputPtr_d!=NULL)
             cudaFree(inputPtr_d);
+        if(outputPtr_d!=NULL)
+            cudaFree(outputPtr_d);
 
         size_t byteSize = W*H * 3;
         cudaMalloc((void **)&inputPtr_d, byteSize);
@@ -65,8 +63,7 @@ void GLWidget::initializeGL()
     glewInit();
     gluOrtho2D(0, W,H, 0);
 
-//Init Pixel buffer
-    // use OpenGL Path
+
     glGenBuffers(1, &pixelBufferObject);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pixelBufferObject);
     glBufferData(GL_PIXEL_UNPACK_BUFFER, 3 * sizeof(GLubyte) * W*H, 0, GL_STREAM_DRAW);
@@ -102,12 +99,10 @@ void GLWidget::updateImage(uchar* ptr_h)
     if(ptr_h && inputPtr_d ){
         cudaMemcpy(inputPtr_d, ptr_h,3*W*H*sizeof(uchar),cudaMemcpyHostToDevice);
         process(inputPtr_d, outputPtr_d, saturationLevel, W,H);
-//        cudaMemcpy(outputPtr_d, inputPtr_d,3*W*H*sizeof(uchar),cudaMemcpyDeviceToDevice);
     }
     else{
-    std::cout<<"ptr_h is null"<<std::endl;
+        std::cout<<"No image"<<std::endl;
     }
-//    cv::cuda::GpuMat gm(cv::Size(W,H),CV_8UC3,inputPtr_d);    cv::Mat em;    gm.download(em);     /*cv::cvtColor(em,em,cv::COLOR_RGB2BGR);*/    cv::imshow("Em2", em);    cv::waitKey(1);
     paintGL();
 
 }
@@ -122,7 +117,7 @@ void GLWidget::paintGL()
     glMatrixMode(GL_MODELVIEW);
 
     size_t num_bytes;
-    cudaGraphicsMapResources(1, &cudaPboResource, 0);    // map PBO to get CUDA device pointer
+    cudaGraphicsMapResources(1, &cudaPboResource, 0);
     cudaGraphicsResourceGetMappedPointer((void **)&outputPtr_d, &num_bytes, cudaPboResource);
     cudaGraphicsUnmapResources(1, &cudaPboResource, 0);
 
@@ -140,13 +135,12 @@ void GLWidget::paintGL()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     glBegin(GL_QUADS);
-        glVertex2f(-1, -1); glTexCoord2f(0, 0);
-        glVertex2f(-1,  1); glTexCoord2f(1, 0);
-        glVertex2f( 1,  1); glTexCoord2f(1, 1);
-        glVertex2f( 1, -1); glTexCoord2f(0, 1);
+    glVertex2f(-1, -1); glTexCoord2f(0, 0);
+    glVertex2f(-1,  1); glTexCoord2f(1, 0);
+    glVertex2f( 1,  1); glTexCoord2f(1, 1);
+    glVertex2f( 1, -1); glTexCoord2f(0, 1);
     glEnd();
 
-    //glDisable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     swapBuffers();

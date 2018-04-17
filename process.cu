@@ -4,7 +4,7 @@
 extern "C"
 
 __device__
-void saturate3Pixels(unsigned char* inPtr_d, unsigned char* outPtr_d, int step, float sat)
+void saturate4Pixels(unsigned char* inPtr_d, unsigned char* outPtr_d, int step, float sat)
 {
     const float wR=0.299;
     const float wG=0.587;
@@ -39,6 +39,7 @@ void saturate3Pixels(unsigned char* inPtr_d, unsigned char* outPtr_d, int step, 
     }
 }
 
+
 __global__
 void changeSaturation(unsigned char *inData_d, unsigned char* outData_d, int imgWidth, int imgHeight , float sat) {
 
@@ -56,9 +57,10 @@ void changeSaturation(unsigned char *inData_d, unsigned char* outData_d, int img
     unsigned char *iPtr = &inData_d[rgb_id];
     unsigned char *oPtr = &outData_d[rgb_id];
 
-    saturate3Pixels(iPtr, oPtr,(blockDim.x),sat);
+    saturate4Pixels(iPtr, oPtr,(blockDim.x),sat);
 }
 
+//kernel laucher
 void cudaProcessImage(unsigned char* in_d, unsigned char* out_d, float sat, int width, int height)
 {
 

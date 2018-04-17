@@ -36,7 +36,7 @@ CUDA_DIR = /usr/local/cuda
 CUDA_ARCH = sm_61 # as supported by the GTX 1080 Ti
 
 #SOURCES FOR NVCC
-CUDA_SOURCES = src/process.cu
+CUDA_SOURCES = process.cu
 CUDA_DIR = /usr/local/cuda
 
 cuda.commands = $$CUDA_DIR/bin/nvcc -std=c++11 -c -arch=$$CUDA_ARCH -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_NAME}  -I/opt/euresys/coaxlink/include ${CUDALIB}
@@ -49,17 +49,17 @@ INCLUDEPATH += $$CUDA_DIR/include
 
 
 SOURCES += \
-            src/main.cpp \
-            src/mainwindow.cpp \
-            src/glwidget.cpp
+            main.cpp \
+            mainwindow.cpp \
+            glwidget.cpp
 
 HEADERS += \
-            src/mainwindow.h \
-            src/glwidget.h \
-            src/process.cuh
+            mainwindow.h \
+            glwidget.h \
+            process.cuh
 
 FORMS += \
-        src/mainwindow.ui
+        mainwindow.ui
 
 DISTFILES += \
-    src/process.cu
+    process.cu
