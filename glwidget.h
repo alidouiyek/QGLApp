@@ -20,14 +20,16 @@ public:
     int W=0;
     int H =0;
     float saturationLevel=1.0;
+    float brightnessLevel=1.0;
 
     GLuint texture=0;
     GLuint pixelBufferObject=0;
     struct cudaGraphicsResource *cudaPboResource;
 
     void setSaturation(float sat) ;
+    void setBrightness(float bright) ;
     void updateImage(uchar *ptr_h) ;
-    static void process(uchar* in, uchar* out, float sat, int w,int h) ;
+    static void process(uchar* in, uchar* out, float saturation, float brightness, int width, int height) ;
 
 protected:
     void initializeGL();

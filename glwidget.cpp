@@ -38,10 +38,15 @@ void GLWidget::setSaturation(float sat)
     this->saturationLevel=sat;
 }
 
-//Static function that calls the cuda processing function
-void GLWidget::process(uchar* in, uchar* out, float sat, int w,int h)
+void GLWidget::setBrightness(float bright)
 {
-     cudaProcessImage(in, out, sat, w, h);
+    this->brightnessLevel=bright;
+}
+
+//Static function that calls the cuda processing function
+void GLWidget::process(uchar* in, uchar* out, float saturation, float brightness, int width, int height)
+{
+     cudaProcessImage(in, out, saturation, brightness,  width, height);
 }
 
 // Init glut, glew and cuda
@@ -113,12 +118,12 @@ void GLWidget::updateImage(uchar* ptr_h)
 {
     if(ptr_h && inputPtr_d &&  outputPtr_d)
     {
-        if(saturationLevel==1.0) // copy directly to output pointer, there is no need to apply cuda processing
+        if(saturationLevel==1.0 && brightnessLevel==1.0) // copy directly to output pointer, there is no need to apply cuda processing
             cudaMemcpy(outputPtr_d, ptr_h,3*W*H*sizeof(uchar),cudaMemcpyHostToDevice);
         else
         {
             cudaMemcpy(inputPtr_d, ptr_h,3*W*H*sizeof(uchar),cudaMemcpyHostToDevice);
-            process(inputPtr_d, outputPtr_d, saturationLevel, W,H);
+            process(inputPtr_d, outputPtr_d, saturationLevel, brightnessLevel, W,H);
         }
         paintGL();
     }

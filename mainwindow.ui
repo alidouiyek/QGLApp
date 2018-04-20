@@ -929,7 +929,7 @@
     <widget class="QSlider" name="satSlider">
      <property name="geometry">
       <rect>
-       <x>480</x>
+       <x>440</x>
        <y>95</y>
        <width>150</width>
        <height>22</height>
@@ -939,10 +939,10 @@
       <number>1</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>50</number>
      </property>
      <property name="singleStep">
-      <number>2</number>
+      <number>1</number>
      </property>
      <property name="value">
       <number>10</number>
@@ -954,7 +954,7 @@
     <widget class="QLabel" name="satLabel">
      <property name="geometry">
       <rect>
-       <x>650</x>
+       <x>600</x>
        <y>90</y>
        <width>161</width>
        <height>27</height>
@@ -1033,6 +1033,50 @@
      </property>
      <property name="arrowType">
       <enum>Qt::RightArrow</enum>
+     </property>
+    </widget>
+    <widget class="QSlider" name="brightSlider">
+     <property name="geometry">
+      <rect>
+       <x>810</x>
+       <y>95</y>
+       <width>150</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>10</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="brightLabel">
+     <property name="geometry">
+      <rect>
+       <x>970</x>
+       <y>90</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>DejaVu Sans</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Brightness: 1.0</string>
      </property>
     </widget>
    </widget>

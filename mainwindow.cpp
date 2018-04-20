@@ -54,6 +54,10 @@ void MainWindow::on_updateGui()
     if(!cap.isOpened())
         return;
 
+    //Saturation & brightness labels
+    ui->satLabel->setText("Saturation: "+QString::number((float)ui->satSlider->value()/10));
+    ui->brightLabel->setText("Brightness: "+QString::number((float)ui->brightSlider->value()/10));
+
     //Time Label
     int minutes=ellapsedTimeMs/60000;
     int seconds=((int)ellapsedTimeMs%60000)/1000;
@@ -145,4 +149,18 @@ void MainWindow::on_progressSlider_sliderMoved(int position)
         ui->progressSlider->setValue(0);
         return;
     }
+}
+
+void MainWindow::on_brightSlider_sliderMoved(int position)
+{
+    if(videoWidget!=NULL){
+        float val=(float)position/10;
+        ui->brightLabel->setText("Brightness: "+QString::number(val));
+        videoWidget->setBrightness(val);
+
+        if(imgSrc.data) //update the image in case the video is paused
+            videoWidget->updateImage(imgSrc.ptr());
+    }
+    else
+        ui->brightSlider->setValue(10);
 }

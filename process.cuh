@@ -14,6 +14,6 @@ static inline void _safe_cuda_call(cudaError err, const char* msg, const char* f
     }
 }
 
- void cudaProcessImage(unsigned char* in_d, unsigned char* out_d, const float sat, const int width, const int height);
+ void cudaProcessImage(unsigned char* in_d, unsigned char* out_d, const float sat, float bright, int width, int height);
 
 #endif // PROCESS_CUH

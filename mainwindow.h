@@ -38,6 +38,8 @@ private slots:
     void on_updateGui();
 
 
+    void on_brightSlider_sliderMoved(int position);
+
 private:
     Ui::MainWindow *ui;
     GLWidget* videoWidget=NULL;
