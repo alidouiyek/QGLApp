@@ -42,7 +42,8 @@ void MainWindow::on_browseButton_clicked()
     ui->viewerGroupBox->layout()->addWidget(videoWidget);
     videoWidget->show();
     ellapsedTimeMs=0;
-    on_satSlider_sliderMoved(ui->satSlider->value());
+    on_satSlider_valueChanged(ui->satSlider->value());
+    on_brightSlider_valueChanged(ui->brightSlider->value());
 
     grabFramesTimer.stop();
     grabFramesTimer.start(frameDurationMs);
@@ -55,8 +56,8 @@ void MainWindow::on_updateGui()
         return;
 
     //Saturation & brightness labels
-    ui->satLabel->setText("Saturation: "+QString::number((float)ui->satSlider->value()/10));
-    ui->brightLabel->setText("Brightness: "+QString::number((float)ui->brightSlider->value()/10));
+//    ui->satLabel->setText("Saturation: "+QString::number((float)ui->satSlider->value()/10));
+//    ui->brightLabel->setText("Brightness: "+QString::number((float)ui->brightSlider->value()/10));
 
     //Time Label
     int minutes=ellapsedTimeMs/60000;
@@ -87,20 +88,6 @@ void MainWindow::on_grabFrame()
         videoWidget->updateImage(imgSrc.ptr());
 }
 
-//Change Saturation
-void MainWindow::on_satSlider_sliderMoved(int position)
-{
-    if(videoWidget!=NULL){
-        float val=(float)position/10;
-        ui->satLabel->setText("Saturation: "+QString::number(val));
-        videoWidget->setSaturation(val);
-
-        if(imgSrc.data) //update the image in case the video is paused
-            videoWidget->updateImage(imgSrc.ptr());
-    }
-    else
-        ui->satSlider->setValue(10);
-}
 
 //Rewind 10sec
 void MainWindow::on_backButton_clicked()
@@ -151,7 +138,23 @@ void MainWindow::on_progressSlider_sliderMoved(int position)
     }
 }
 
-void MainWindow::on_brightSlider_sliderMoved(int position)
+//Change Saturation
+void MainWindow::on_satSlider_valueChanged(int position)
+{
+    if(videoWidget!=NULL){
+        float val=(float)position/10;
+        ui->satLabel->setText("Saturation: "+QString::number(val));
+        videoWidget->setSaturation(val);
+
+        if(imgSrc.data) //update the image in case the video is paused
+            videoWidget->updateImage(imgSrc.ptr());
+    }
+    else
+        ui->satSlider->setValue(10);
+}
+
+//Change Brightness
+void MainWindow::on_brightSlider_valueChanged(int position)
 {
     if(videoWidget!=NULL){
         float val=(float)position/10;

@@ -23,8 +23,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void updateTimeLabel();
-
 private slots:
     void on_browseButton_clicked();
     void on_backButton_clicked();
@@ -32,13 +30,12 @@ private slots:
     void on_pauseButton_clicked();
 
     void on_progressSlider_sliderMoved(int position);
-    void on_satSlider_sliderMoved(int position);
+    void on_brightSlider_valueChanged(int position);
+    void on_satSlider_valueChanged(int position);
 
     void on_grabFrame();
     void on_updateGui();
 
-
-    void on_brightSlider_sliderMoved(int position);
 
 private:
     Ui::MainWindow *ui;
