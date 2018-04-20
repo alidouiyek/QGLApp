@@ -10,7 +10,7 @@ static inline void _safe_cuda_call(cudaError err, const char* msg, const char* f
 {
     if(err!=cudaSuccess)
     {
-        fprintf(stderr,"%s\n\nFile: %s\n\nLine Number: %d\n\nReason: %s\n",msg,file_name,line_number,cudaGetErrorString(err));
+        fprintf(stderr,"%s\n\nFile: %s\nLine Number: %d\n\nReason: %s\n",msg,file_name,line_number,cudaGetErrorString(err));
     }
 }
 
