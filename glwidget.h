@@ -12,7 +12,11 @@ class GLWidget : public QGLWidget {
 public:
     GLWidget(QWidget *parent, cv::Size imageSize);
     ~GLWidget();
+    void setSaturation(float sat) ;
+    void setBrightness(float bright) ;
+    void updateImage(uchar *ptr_h) ;
 
+private:
     uchar* testPtr;
     uchar* inputPtr_d=NULL;
     uchar* outputPtr_d=NULL;
@@ -26,9 +30,6 @@ public:
     GLuint pixelBufferObject=0;
     struct cudaGraphicsResource *cudaPboResource;
 
-    void setSaturation(float sat) ;
-    void setBrightness(float bright) ;
-    void updateImage(uchar *ptr_h) ;
     static void process(uchar* in, uchar* out, float saturation, float brightness, int width, int height) ;
 
 protected:
