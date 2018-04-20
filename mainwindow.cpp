@@ -90,6 +90,9 @@ void MainWindow::on_satSlider_sliderMoved(int position)
         float val=(float)position/10;
         ui->satLabel->setText("Saturation: "+QString::number(val));
         videoWidget->setSaturation(val);
+
+        if(imgSrc.data) //update the image in case the video is paused
+            videoWidget->updateImage(imgSrc.ptr());
     }
     else
         ui->satSlider->setValue(10);
